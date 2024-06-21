@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { Scope } from 'eslint';
 import { Socket } from 'socket.io';
 
 export class GameService {
@@ -16,11 +17,16 @@ export class GameService {
   }
 
   shot(client: Socket, shotIntensity: number): void {
-    const opponent = this.getOpponent(client.id);
-    if (opponent) {
-        opponent.emit('get_shot', { intensity: shotIntensity });
-    } else {
-      client.emit('error', 'No opponent connected');
+    this.getShot(client, shotIntensity);
+  }
+
+  getShot(client: Socket, shotIntensity: number): void{
+    const opponent:Socket = this.getOpponent(client.id);
+    if(opponent){
+      this.logger.log('The one getting the shot is:', opponent.id);
+      opponent.emit('get_shot', { intensity: shotIntensity });
+    }else{
+      client.emit('error', 'No opponent connected to get shot');
     }
   }
 
