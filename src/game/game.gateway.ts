@@ -34,9 +34,9 @@ export class GameGateway
       this.gameService.addPlayer(client);
   }
 
-  handleDisconnect(client: any) {
+  handleDisconnect(client:Socket) {
       this.logger.log(`Client disconnected: ${client.id}`);
-      this.gameService.removePlayer(client.id);
+      this.gameService.removePlayer(client);
   }
 
   @SubscribeMessage('shot')
