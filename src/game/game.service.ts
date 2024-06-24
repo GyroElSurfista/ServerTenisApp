@@ -23,7 +23,7 @@ export class GameService {
   getShot(client: Socket, shotIntensity: number): void{
     const opponent:Socket = this.getOpponent(client.id);
     if(opponent){
-      this.logger.log('The one getting the shot is:', opponent.id);
+      this.logger.log(`The one getting the shot is:${opponent.id}`);
       opponent.emit('get_shot', { intensity: shotIntensity });
     }else{
       client.emit('error', 'No opponent connected to get shot');
